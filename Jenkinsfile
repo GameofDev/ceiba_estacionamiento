@@ -15,6 +15,12 @@ pipeline{
 		stage('Checkout'){
 			steps{
 				echo "------------>Checkout<------------"
+				checkout([$​class: 'GitSCM​', 
+					  ​branches: [[name: '*/master']]​, 
+					  doGenerateSubmoduleConfigurations: false, 
+					  extensions: [], ​gitTool: 'Git_Centos'​, 
+					  submoduleCfg: [], 
+					  userRemoteConfigs: [[​credentialsId: 'GitHub_eduardo.rosales', url: 'https://github.com/GameofDev/ceiba_estacionamiento​']]])
 				 
 			}
 		}
