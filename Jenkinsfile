@@ -15,13 +15,13 @@ pipeline{
 		stage('Checkout'){
 			steps{
 				echo "------------>Checkout<------------"
-				 sh 'gradle --b ./proyecto1/build.gradle compileJava'
+				 
 			}
 		}
 		stage('Unit Tests'){
 			steps{
 				echo"-------------> These are Unit Test !! <------------"
-				sh 'gradle --b ./build.gradle test'
+				
 			}
 		}
 		stage('Integration Test'){
