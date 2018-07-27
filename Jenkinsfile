@@ -20,6 +20,7 @@ pipeline{
 		stage('Unit Tests'){
 			steps{
 				echo"-------------> These are Unit Test !! <------------"
+				sh 'gradle --b ./build.gradle test'
 			}
 		}
 		stage('Integration Test'){
