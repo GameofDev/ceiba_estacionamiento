@@ -15,6 +15,7 @@ pipeline{
 		stage('Checkout'){
 			steps{
 				echo "------------>Checkout<------------"
+				 sh 'gradle --b ./proyecto1/build.gradle compileJava'
 			}
 		}
 		stage('Unit Tests'){
