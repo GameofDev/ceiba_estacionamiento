@@ -15,12 +15,30 @@ pipeline{
 		stage('Checkout'){
 			steps{
 				echo "------------>Checkout<------------"
+					checkout(
+					[
+						  $class: 'GitSCM'
+						, branches: [[name: '*/master']]
+						, doGenerateSubmoduleConfigurations: false
+						, extensions: []
+						, gitTool: 'Git_Centos'
+						, submoduleCfg: []
+						, userRemoteConfigs: [[credentialsId: 'GitHub_eduardo.rosales', url: 'https://github.com/GameofDev/ceiba_estacionamiento']]
+					]
+				)
 				 
+			}
+		}
+		stage('Compile') {
+			steps{
+				echo "------------>Compile<------------"
+				sh 'gradle --b ./build.gradle compileJava'
 			}
 		}
 		stage('Unit Tests'){
 			steps{
 				echo"-------------> These are Unit Test !! <------------"
+				sh 'gradle --b ./build.gradle test' 
 				
 			}
 		}
@@ -32,11 +50,15 @@ pipeline{
 		stage('Static Code Analysis'){
 			steps{
 				echo"-------> This is Static Code Analysis !! <---------"
+				withSonarQubeEnv('Sonar'){
+					sh "${ tool name : 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner"
+				}
 			}
 		}
 		stage('Build'){
 			steps{
 				echo"--------> This is Build !! <----------"
+				sh 'gradle --b ./build.gradle build -x test'
 			}
 		}
 	}
@@ -46,9 +68,11 @@ pipeline{
 		}
 		success {
 			echo 'This will run only if all is successful  !! :)'
+			//junit '**/build/test-results/test/*.xml'
 		}
 		failure {
 			echo 'This will run only if failed !! :('
+			mail(to: 'eduardo.rosales@ceiba.com.co', subject: "Failed Pipeline:${ currentBuild.fullDisplayName}", body: "Something is wrong with ${env.BUILD_URL}")
 		}
 		unstable {
 			echo 'This will run only if the run was marked as unstable !!  :S'
