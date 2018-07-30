@@ -38,6 +38,7 @@ pipeline{
 		stage('Unit Tests'){
 			steps{
 				echo"-------------> These are Unit Test !! <------------"
+				sh 'gradle --b ./build.gradle test' 
 				
 			}
 		}
@@ -49,11 +50,15 @@ pipeline{
 		stage('Static Code Analysis'){
 			steps{
 				echo"-------> This is Static Code Analysis !! <---------"
+				withSonarQubeEnv('Sonar'){
+					sh "${ tool name : 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner"
+				}
 			}
 		}
 		stage('Build'){
 			steps{
 				echo"--------> This is Build !! <----------"
+				sh 'gradle --b ./build.gradle build -x test'
 			}
 		}
 	}
