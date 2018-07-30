@@ -1,5 +1,6 @@
 pipeline{
 
+
 	agent {
 		label 'Slave_Induccion'
 	}
