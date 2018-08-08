@@ -25,12 +25,7 @@ public class RegistroController {
 	public Registro registrarIngreso(@RequestBody Vehiculo vehiculo) {
 		return vigilante.registrarIngreso(vehiculo);
 	}
-	
-	@GetMapping("/prueba")
-	public List<RegistroEntity> prueba (){
-		return vigilante.consultarRegistros();
-	}
-	
+	/* PRUEBAS ... ELIMINAR
 	@GetMapping("/contador")
 	public int contador (){
 		return vigilante.cantidadMotos();
@@ -40,6 +35,11 @@ public class RegistroController {
 	public List <VehiculoEntity> consultarVehiculos () {
 		return vigilante.consultarCarros();
 	}
+	
+	@PostMapping("/consultar")
+	public Registro consultarCarro (@RequestBody Vehiculo vehiculo){
+		return vigilante.consultarRegistro(vehiculo.getPlaca());
+	}*/
 	
 	@PostMapping("/Despachar")
 	public Registro despacharVehiculo (@RequestBody Vehiculo vehiculo) {

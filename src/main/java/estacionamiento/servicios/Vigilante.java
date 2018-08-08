@@ -6,58 +6,36 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import estacionamiento.builder.*;
 import estacionamiento.dominio.*;
-import estacionamiento.entidades.*;
 import estacionamiento.reglas_de_negocio.*;
-import estacionamiento.repositorio.*;
+
 
 
 @Service
 public class Vigilante {
 	
 	private Parqueadero parqueadero;
+		
+	@Autowired
+	private RegistroServicio registroServicio;
 	
 	@Autowired
-	private RegistroRepository registroRepositorio;
-	
-	@Autowired
-	private VehiculoRepository vehiculoRepositorio;
+	private VehiculoServicio vehiculoServicio;
 	
 	/*Metodo utilizado para ingresar vehiculos al parqueadero
 	 * En este metodo se evaluan las reglas de ingreso al parqueadero
-	 * Utiliza dp metodos que realizan las tareas especificas de ingresarVehiculo y CrearRegistro
+	 * Se ingresa el vehiculo yse crea un rgeistro del mismo.
 	 */
 	public Registro registrarIngreso(Vehiculo vehiculo) {
 		evaluarReglasIngreso(vehiculo);
-		registrarVehiculo(vehiculo);
-		return crearRegistro(vehiculo);
-	}
-
-	//Recibe un vehiculo, lo convierte en una entidad y lo envia a el repositorio 
-	public void registrarVehiculo (Vehiculo vehiculo){
-		vehiculoRepositorio.save(VehiculoBuilder.convertirAEntidad(vehiculo));
-	}
-	
-	public void borrarVehiculo (Vehiculo vehiculo){
-		vehiculoRepositorio.delete(VehiculoBuilder.convertirAEntidad(vehiculo));
-	}
-	
-	public void borrarRegistro (Registro registro){
-		registroRepositorio.delete(RegistroBuilder.convertirAEntidad(registro));
-	}
-	
-	//Recibe un vehiculo, crea un registro que despues lo convierte en una entidad para enviarlo al repositorio
-	public Registro crearRegistro (Vehiculo vehiculo){
-		RegistroEntity registroEntity = RegistroBuilder.convertirAEntidad(new Registro(vehiculo.getPlaca(), Calendar.getInstance(), null, 0));
-		return RegistroBuilder.convertirADominio(registroRepositorio.save(registroEntity));
+		vehiculoServicio.registrarVehiculo(vehiculo);
+		return registroServicio.crearRegistro(vehiculo);
 	}
 	
    //Recibe un vehiculo  y crea la lista de reglas que se les va a aplicar. Hace un ciclo envaluando el vehiculo en esa lista de reglas.
 	private void evaluarReglasIngreso (Vehiculo vehiculo) {
 		List<ReglaIngreso> reglas = new ArrayList<>();
-		reglas.add(new ReglaCantidadParqueadero(cantidadCarros(),cantidadMotos()));
+		reglas.add(new ReglaCantidadParqueadero(vehiculoServicio.cantidadCarros(),vehiculoServicio.cantidadMotos()));
 		reglas.add(new ReglaRestriccionPlaca());
 		reglas.add(new ReglaTipoVehiculos());
 		for (ReglaIngreso regla : reglas) {
@@ -65,22 +43,22 @@ public class Vigilante {
 	    }
 	}
 	
+
+	//Debe evaluar la excepciones de salida: La placa no existe. 
 	public Registro despacharVehiculo (String placa){
-		//Debe evaluar la excepciones de salida: La placa no existe. 
-		Registro registro = consultarRegistro(placa);
-		Vehiculo vehiculo = consultarVehiculo(placa);
+		Registro registro = registroServicio.consultarRegistro(placa);
+		Vehiculo vehiculo = vehiculoServicio.consultarVehiculo(placa);
 		int altoCilindraje=0;
 		if (vehiculo.getTipo().equals("moto")){
 			if(vehiculo.getCilindraje()>500){
-				altoCilindraje = 2000;
+				altoCilindraje = parqueadero.getExtraMotos();
 			}
-			borrarVehiculo (vehiculo);
-			borrarRegistro (registro);
 			return realizarCobro(registro,parqueadero.getCostoMotosHora(),parqueadero.getCostoMotosDia(),altoCilindraje);
 		}
-			
 		return realizarCobro(registro,parqueadero.getCostoCarrosHora(),parqueadero.getCostoCarrosDia(),altoCilindraje);
 	}
+	
+	
 	
 	//En este metodo se actualiza el registro con la fecha de salida y el costo del servicio
 	public Registro realizarCobro (Registro registro, int costoHoras,int costoDias, int altoCilindraje){
@@ -88,6 +66,10 @@ public class Vigilante {
 		long dias;
 		long horasExtras;
 		double costo=0;
+		
+		vehiculoServicio.borrarVehiculo (registro.getPlaca());
+		registroServicio.borrarRegistro (registro.getPlaca());
+		
 		if(horasParqueado >= 24){
 			dias = horasParqueado / 24;
 			horasExtras = horasParqueado - (dias*24);
@@ -108,45 +90,10 @@ public class Vigilante {
         long millIngreso = fechaIngreso.getTimeInMillis();
         long millSalida = fechaSalida.getTimeInMillis();
         long millTranscurrido = millSalida - millIngreso;
-        return millTranscurrido / (60 * 60 * 1000);
+        long horas = millTranscurrido/(60*60*1000); // Lo convertimos en horas
+        return (horas>=1)?horas:1;
 	}
 	
-	public Vehiculo consultarVehiculo (String placa){
-		return VehiculoBuilder.convertirADominio(vehiculoRepositorio.findByPlaca(placa));
-	}
-	
-	public Registro consultarRegistro (String placa){
-		return RegistroBuilder.convertirADominio(registroRepositorio.findByPlaca(placa));
-	}
-	          
-	//Temporal
-	public List<RegistroEntity> consultarRegistros (){
-		return registroRepositorio.findAll();
-	}
-	
-	//Temporal
-	public List<VehiculoEntity> consultarVehiculos (String tipo){
-		return vehiculoRepositorio.findAll();
-	}
-	
-	//Temporal
-	public List <VehiculoEntity> consultarCarros (){
-		return vehiculoRepositorio.findByTipo("carro");
-	}
-	
-	public int cantidadCarros (){
-		return vehiculoRepositorio.findByTipo("carro").size();
-	}
-	
-	public int cantidadMotos (){
-		return vehiculoRepositorio.findByTipo("moto").size();
-	}
-	
-	public Registro registrarIngresoPRUEBA(Vehiculo vehiculo) {
-		//evaluarReglasIngreso(vehiculo);
-		//registrarVehiculo(vehiculo);
-		return crearRegistro(vehiculo);
-	}
-	
+        
 	
 }
