@@ -17,6 +17,8 @@ import estacionamiento.repositorio.*;
 @Service
 public class Vigilante {
 	
+	private Parqueadero parqueadero;
+	
 	@Autowired
 	private RegistroRepository registroRepositorio;
 	
@@ -38,6 +40,14 @@ public class Vigilante {
 		vehiculoRepositorio.save(VehiculoBuilder.convertirAEntidad(vehiculo));
 	}
 	
+	public void borrarVehiculo (Vehiculo vehiculo){
+		vehiculoRepositorio.delete(VehiculoBuilder.convertirAEntidad(vehiculo));
+	}
+	
+	public void borrarRegistro (Registro registro){
+		registroRepositorio.delete(RegistroBuilder.convertirAEntidad(registro));
+	}
+	
 	//Recibe un vehiculo, crea un registro que despues lo convierte en una entidad para enviarlo al repositorio
 	public Registro crearRegistro (Vehiculo vehiculo){
 		RegistroEntity registroEntity = RegistroBuilder.convertirAEntidad(new Registro(vehiculo.getPlaca(), Calendar.getInstance(), null, 0));
@@ -55,37 +65,45 @@ public class Vigilante {
 	    }
 	}
 	
-	public String despacharvehiculo (String placa){
+	public Registro despacharVehiculo (String placa){
+		//Debe evaluar la excepciones de salida: La placa no existe. 
 		Registro registro = consultarRegistro(placa);
 		Vehiculo vehiculo = consultarVehiculo(placa);
+		int altoCilindraje=0;
 		if (vehiculo.getTipo().equals("moto")){
-			
-		}else if(vehiculo.getTipo().equals("carro")){
-			
+			if(vehiculo.getCilindraje()>500){
+				altoCilindraje = 2000;
+			}
+			borrarVehiculo (vehiculo);
+			borrarRegistro (registro);
+			return realizarCobro(registro,parqueadero.getCostoMotosHora(),parqueadero.getCostoMotosDia(),altoCilindraje);
 		}
-		
-		return "d";
+			
+		return realizarCobro(registro,parqueadero.getCostoCarrosHora(),parqueadero.getCostoCarrosDia(),altoCilindraje);
 	}
 	
 	//En este metodo se actualiza el registro con la fecha de salida y el costo del servicio
-	public Registro actualizarRegistroMoto (Registro registro){
+	public Registro realizarCobro (Registro registro, int costoHoras,int costoDias, int altoCilindraje){
 		long horasParqueado = diferenciaTiempo(registro.getFechaIngreso());
-		long tiempo, dias, horasExtras;
+		long dias;
+		long horasExtras;
+		double costo=0;
 		if(horasParqueado >= 24){
 			dias = horasParqueado / 24;
 			horasExtras = horasParqueado - (dias*24);
+			costo = (costoHoras*horasExtras) + (costoDias*dias);
 		}else if(horasParqueado < 24 && horasParqueado >= 9  ){
-			horasExtras = horasParqueado - 9; 
+			costo = costoDias; 
+		}else if(horasParqueado< 9){
+			costo = costoHoras *  horasParqueado;
 		}
-		
-		
-		
-		return registro;//Obvio modificar
+		registro.setValor(costo+altoCilindraje);
+		registro.setFechaSalida(Calendar.getInstance());
+		return registro;
 	}
 	
 	public Registro actualizarRegistroCarro (Registro registro){
 		Long horas = diferenciaTiempo(registro.getFechaIngreso());
-		
 		return registro;//Modificar
 	}
 	
@@ -98,17 +116,15 @@ public class Vigilante {
         long millIngreso = fechaIngreso.getTimeInMillis();
         long millSalida = fechaSalida.getTimeInMillis();
         long millTranscurrido = millSalida - millIngreso;
-        
         return millTranscurrido / (60 * 60 * 1000);
-
 	}
 	
 	public Vehiculo consultarVehiculo (String placa){
-		return VehiculoBuilder.convertirADominio(vehiculoRepositorio.findByPlaca(placa));
+		return VehiculoBuilder.convertirADominio(vehiculoRepositorio.findById(placa));
 	}
 	
 	public Registro consultarRegistro (String placa){
-		return RegistroBuilder.convertirADominio(registroRepositorio.findByPlaca(placa));
+		return RegistroBuilder.convertirADominio(registroRepositorio.findById(placa));
 	}
 	          
 	//Temporal
@@ -132,6 +148,12 @@ public class Vigilante {
 	
 	public int cantidadMotos (){
 		return vehiculoRepositorio.findByTipo("moto").size();
+	}
+	
+	public Registro registrarIngresoPRUEBA(Vehiculo vehiculo) {
+		//evaluarReglasIngreso(vehiculo);
+		//registrarVehiculo(vehiculo);
+		return crearRegistro(vehiculo);
 	}
 	
 	

@@ -19,6 +19,12 @@ public class Registro {
 		this.fechaSalida = fechaSalida;
 		this.costo = costo;
 	}
+	
+	public Registro (String placa, Calendar fechaIngreso){
+		this.placa = placa;
+		this.fechaIngreso = fechaIngreso;
+	}
+	
 
 	public String getPlaca() {
 		return placa;

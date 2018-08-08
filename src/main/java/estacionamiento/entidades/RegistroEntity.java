@@ -9,23 +9,19 @@ import javax.persistence.*;
 public class RegistroEntity {
 	
 	@Id 
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="IDs_registros")
-	@Column(name = "id1", updatable = false, nullable = false)
-	Long id;
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="IDs_registros")
+	@Column(name = "placa", updatable = false, nullable = false)
 	private String placa;
 	private Calendar fechaIngreso;
-	private Calendar fechaSalida;
-	private double costo;
 	
-	public RegistroEntity (Long id){
-		this.id = id;
+	public RegistroEntity (String placa){
+		this.placa = placa;
 	}
 	
 	public RegistroEntity (String placa, Calendar fechaIngreso, Calendar fechaSalida, double costo){
 		this.placa = placa;
 		this.fechaIngreso = fechaIngreso;
-		this.fechaSalida = fechaSalida;
-		this.costo = costo;
+
 	}
 	
 	public RegistroEntity (){
@@ -43,18 +39,6 @@ public class RegistroEntity {
 	}
 	public void setFechaIngreso(Calendar fechaIngreso) {
 		this.fechaIngreso = fechaIngreso;
-	}
-	public Calendar getFechaSalida() {
-		return fechaSalida;
-	}
-	public void setFechaSalida(Calendar fechaSalida) {
-		this.fechaSalida = fechaSalida;
-	}
-	public double getCosto() {
-		return costo;
-	}
-	public void setValor(double costo) {
-		this.costo = costo;
 	}
 	
 

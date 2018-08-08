@@ -13,7 +13,7 @@ public class RegistroBuilder {
 		if (registroEntity == null){
 			return null;
 		}
-		return new Registro (registroEntity.getPlaca(), registroEntity.getFechaIngreso(), registroEntity.getFechaSalida(), registroEntity.getCosto());
+		return new Registro (registroEntity.getPlaca(), registroEntity.getFechaIngreso());
 	}
 	
 	public static RegistroEntity convertirAEntidad (Registro registro){

@@ -41,9 +41,9 @@ public class RegistroController {
 		return vigilante.consultarCarros();
 	}
 	
-	@GetMapping("/pruebaTiempo")
-	public String consultarTiempo (@RequestBody Vehiculo vehiculo) {
-		return vigilante.despacharvehiculo(vehiculo.getPlaca());
+	@PostMapping("/Despachar")
+	public Registro despacharVehiculo (@RequestBody Vehiculo vehiculo) {
+		return vigilante.despacharVehiculo(vehiculo.getPlaca());
 	}
 	
 	

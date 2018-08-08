@@ -7,9 +7,9 @@ import javax.persistence.*;
 public class VehiculoEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="IDs_vehiculos")
-	@Column(name = "id2", updatable = false, nullable = false)
-	Long id;
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="IDs_vehiculos")
+	@Column(name = "placa", updatable = false, nullable = false)
+	//Long id;
 	private String placa;
 	private String tipo;
 	private int cilindraje;
@@ -21,16 +21,9 @@ public class VehiculoEntity {
 	}
 	
 	public VehiculoEntity (){
-		
+
 	}
 	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getPlaca() {
 		return placa;
 	}
