@@ -100,15 +100,7 @@ public class Vigilante {
 		registro.setValor(costo+altoCilindraje);
 		registro.setFechaSalida(Calendar.getInstance());
 		return registro;
-	}
-	
-	public Registro actualizarRegistroCarro (Registro registro){
-		Long horas = diferenciaTiempo(registro.getFechaIngreso());
-		return registro;//Modificar
-	}
-	
-	
-	
+	}	
 	
 	//Se toma la fecha de ingreso al parqueadero y la fecha actual y se calcula la diferencia
 	public long diferenciaTiempo(Calendar fechaIngreso){
@@ -120,11 +112,11 @@ public class Vigilante {
 	}
 	
 	public Vehiculo consultarVehiculo (String placa){
-		return VehiculoBuilder.convertirADominio(vehiculoRepositorio.findById(placa));
+		return VehiculoBuilder.convertirADominio(vehiculoRepositorio.findByPlaca(placa));
 	}
 	
 	public Registro consultarRegistro (String placa){
-		return RegistroBuilder.convertirADominio(registroRepositorio.findById(placa));
+		return RegistroBuilder.convertirADominio(registroRepositorio.findByPlaca(placa));
 	}
 	          
 	//Temporal

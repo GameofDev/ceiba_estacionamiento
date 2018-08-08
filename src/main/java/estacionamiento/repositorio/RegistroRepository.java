@@ -12,7 +12,7 @@ import estacionamiento.entidades.RegistroEntity;
 public interface RegistroRepository extends JpaRepository<RegistroEntity, Long> {
 	
 	public RegistroEntity findByPlaca(String placa);
-	public RegistroEntity findById(String placa);
+	//public RegistroEntity findById(String placa);
 	
 		//public int cantidadTipoVehiculoEnParqueadero(@Param(value = "ID_TIPO_VEHICULO") Long tipoVehiculo);
 	
