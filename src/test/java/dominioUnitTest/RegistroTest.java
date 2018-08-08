@@ -36,7 +36,7 @@ public class RegistroTest {
 		assertEquals(PLACA, registro.getPlaca());
 		assertEquals(FECHAINGRESO, registro.getFechaIngreso());
 		assertEquals(FECHASALIDA, registro.getFechaSalida());
-		assertEquals(COSTO, registro.getCosto());
+		assertEquals(COSTO,registro.getCosto(), 5000.0);
 		
 		
 	}
