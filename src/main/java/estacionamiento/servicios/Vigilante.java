@@ -12,7 +12,7 @@ import estacionamiento.reglas_de_negocio.*;
 import estacionamiento.repositorio.VehiculoRepository;
 
 
-
+ 
 @Service
 public class Vigilante {
 	
@@ -22,7 +22,7 @@ public class Vigilante {
 	private RegistroServicio registroServicio;
 	
 	@Autowired
-	private VehiculoServicio vehiculoServicio;
+	public VehiculoServicio vehiculoServicio;
 	
 	@Autowired
 	private VehiculoRepository vehiculoRepositorio; 
