@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import estacionamiento.builder.RegistroBuilder;
 import estacionamiento.dominio.Registro;
@@ -11,6 +12,7 @@ import estacionamiento.dominio.Vehiculo;
 import estacionamiento.entidades.RegistroEntity;
 import estacionamiento.repositorio.RegistroRepository;
 
+@Service
 public class RegistroServicio {
 	
 	@Autowired

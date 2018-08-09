@@ -10,6 +10,7 @@ public class Parqueadero {
 	private static final int COSTO_CARROS_DIA = 8000;
 	private static final int EXTRA_MOTOS = 2000;
 	
+	
 	public Parqueadero () {
 		
 	}

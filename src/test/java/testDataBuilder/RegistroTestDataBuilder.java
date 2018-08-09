@@ -6,12 +6,12 @@ import estacionamiento.dominio.Registro;
 
 public class RegistroTestDataBuilder {
 	private static final String PLACA = "ABC123";
-	private static final double COSTO = 0;
+	private static final long COSTO = 0;
 	
 	private String placa;
 	private Calendar fechaIngreso = Calendar.getInstance();
 	private Calendar fechaSalida= Calendar.getInstance();
-	private double costo;
+	private long costo;
 	
 	public RegistroTestDataBuilder (){
 		this.placa = PLACA;
@@ -35,7 +35,7 @@ public class RegistroTestDataBuilder {
 		return this;
 	}
 	
-	public RegistroTestDataBuilder conCosto (double costo){
+	public RegistroTestDataBuilder conCosto (long costo){
 		this.costo = costo;
 		return this;
 	}

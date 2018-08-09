@@ -9,7 +9,7 @@ public class VehiculoBuilder  {
 	
 	
 	
-	public VehiculoBuilder (){
+	private VehiculoBuilder (){
 		
 	}
 	

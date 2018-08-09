@@ -3,12 +3,14 @@ package estacionamiento.servicios;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import estacionamiento.builder.VehiculoBuilder;
 import estacionamiento.dominio.Vehiculo;
 import estacionamiento.entidades.VehiculoEntity;
 import estacionamiento.repositorio.VehiculoRepository;
 
+@Service
 public class VehiculoServicio {
 	
 	@Autowired
@@ -27,7 +29,7 @@ public class VehiculoServicio {
 		return VehiculoBuilder.convertirADominio(vehiculoRepositorio.findByPlaca(placa));
 	}
 	
-	public List<VehiculoEntity> consultarVehiculos (String tipo){
+	public List<VehiculoEntity> consultarVehiculos (){
 		return vehiculoRepositorio.findAll();
 	}
 	

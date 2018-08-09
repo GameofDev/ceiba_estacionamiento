@@ -9,7 +9,7 @@ public class VehiculoTestDataBuilder {
 	private static final int CILINDRAJE = 400;
 
 	private String placa;
-	private String tipo;
+	private String tipo; 
 	private int cilindraje;
 
 	public VehiculoTestDataBuilder (){

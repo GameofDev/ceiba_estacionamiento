@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import estacionamiento.dominio.*;
 import estacionamiento.reglas_de_negocio.*;
+import estacionamiento.repositorio.VehiculoRepository;
 
 
 
@@ -21,6 +22,9 @@ public class Vigilante {
 	
 	@Autowired
 	private VehiculoServicio vehiculoServicio;
+	
+	@Autowired
+	private VehiculoRepository vehiculoRepositorio;
 	
 	/*Metodo utilizado para ingresar vehiculos al parqueadero
 	 * En este metodo se evaluan las reglas de ingreso al parqueadero
@@ -65,7 +69,7 @@ public class Vigilante {
 		long horasParqueado = diferenciaTiempo(registro.getFechaIngreso());
 		long dias;
 		long horasExtras;
-		double costo=0;
+		long costo=0;
 		
 		vehiculoServicio.borrarVehiculo (registro.getPlaca());
 		registroServicio.borrarRegistro (registro.getPlaca());

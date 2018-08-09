@@ -16,7 +16,7 @@ public class RegistroTest {
 	private static final String PLACA = "ZYX987";
 	private static final Calendar FECHAINGRESO = Calendar.getInstance();
 	private static final Calendar FECHASALIDA = Calendar.getInstance();
-	private static final double COSTO = 5000;
+	private static final long COSTO = 5000;
 	
 	@Test
 	public void crearRegistroTest (){
@@ -37,7 +37,6 @@ public class RegistroTest {
 		assertEquals(FECHAINGRESO, registro.getFechaIngreso());
 		assertEquals(FECHASALIDA, registro.getFechaSalida());
 		assertEquals(COSTO,registro.getCosto(), 5000.0);
-		
 		
 	}
 

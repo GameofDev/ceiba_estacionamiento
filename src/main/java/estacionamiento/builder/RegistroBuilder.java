@@ -5,7 +5,7 @@ import estacionamiento.entidades.RegistroEntity;
 
 public class RegistroBuilder {
 
-	public RegistroBuilder (){
+	private RegistroBuilder (){
 		
 	}
 	
@@ -20,7 +20,7 @@ public class RegistroBuilder {
 		if(registro==null){
 			return null;
 		}
-		return new RegistroEntity(registro.getPlaca(), registro.getFechaIngreso(), registro.getFechaSalida(), registro.getCosto() );
+		return new RegistroEntity(registro.getPlaca(), registro.getFechaIngreso() );
 	}
 	
 }

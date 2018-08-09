@@ -7,13 +7,13 @@ public class Registro {
 	private String placa;
 	private Calendar fechaIngreso;
 	private Calendar fechaSalida;
-	private double costo;
+	private long costo;
 	
 	public Registro (){
 		
 	}
 	
-	public Registro (String placa, Calendar fechaIngreso, Calendar fechaSalida, double costo){
+	public Registro (String placa, Calendar fechaIngreso, Calendar fechaSalida, long costo){
 		this.placa = placa;
 		this.fechaIngreso = fechaIngreso;
 		this.fechaSalida = fechaSalida;
@@ -23,7 +23,7 @@ public class Registro {
 	public Registro (String placa, Calendar fechaIngreso){
 		this.placa = placa;
 		this.fechaIngreso = fechaIngreso;
-	}
+	} 
 	
 
 	public String getPlaca() {
@@ -47,7 +47,7 @@ public class Registro {
 	public double getCosto() {
 		return costo;
 	}
-	public void setValor(double costo) {
+	public void setValor(long costo) {
 		this.costo = costo;
 	}
 	

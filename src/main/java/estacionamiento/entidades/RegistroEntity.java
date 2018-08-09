@@ -18,7 +18,7 @@ public class RegistroEntity {
 		this.placa = placa;
 	}
 	
-	public RegistroEntity (String placa, Calendar fechaIngreso, Calendar fechaSalida, double costo){
+	public RegistroEntity (String placa, Calendar fechaIngreso){
 		this.placa = placa;
 		this.fechaIngreso = fechaIngreso;
 

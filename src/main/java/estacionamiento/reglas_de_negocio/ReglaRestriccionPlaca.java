@@ -18,7 +18,7 @@ public class ReglaRestriccionPlaca implements ReglaIngreso {
 			mostrarMensaje(NO_ESTA_AUTORIZADO);
 		}
 	}
-
+ 
 	@Override
 	public void mostrarMensaje(String mensaje) {
 		throw new IngresoException(mensaje);

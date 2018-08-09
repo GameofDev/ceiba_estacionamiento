@@ -19,3 +19,4 @@ public class ReglaTipoVehiculos implements ReglaIngreso{
 	}
 
 }
+  
