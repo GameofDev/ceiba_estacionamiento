@@ -16,7 +16,7 @@ public class ReglaCantidadParqueadero implements ReglaIngreso{
 		this.numMotosActual = numMotosActual;
 	}
 	
-	public void verificarRegla(Vehiculo vehiculo) {
+	public void verificarRegla(Vehiculo vehiculo) { 
     	if(vehiculo.getTipo().equals("moto")){
     		parqueoDisponibleMoto();
     	} else if (vehiculo.getTipo().equals("carro")){

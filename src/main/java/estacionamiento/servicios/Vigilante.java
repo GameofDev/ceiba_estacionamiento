@@ -17,14 +17,14 @@ public class Vigilante {
 	
 	private Parqueadero parqueadero;
 		
-	@Autowired
+	@Autowired 
 	private RegistroServicio registroServicio;
 	
 	@Autowired
 	private VehiculoServicio vehiculoServicio;
 	
 	@Autowired
-	private VehiculoRepository vehiculoRepositorio;
+	private VehiculoRepository vehiculoRepositorio; 
 	
 	/*Metodo utilizado para ingresar vehiculos al parqueadero
 	 * En este metodo se evaluan las reglas de ingreso al parqueadero
@@ -37,10 +37,10 @@ public class Vigilante {
 	}
 	
    //Recibe un vehiculo  y crea la lista de reglas que se les va a aplicar. Hace un ciclo envaluando el vehiculo en esa lista de reglas.
-	private void evaluarReglasIngreso (Vehiculo vehiculo) {
+	public void evaluarReglasIngreso (Vehiculo vehiculo) {
 		List<ReglaIngreso> reglas = new ArrayList<>();
 		reglas.add(new ReglaCantidadParqueadero(vehiculoServicio.cantidadCarros(),vehiculoServicio.cantidadMotos()));
-		reglas.add(new ReglaRestriccionPlaca());
+		reglas.add(new ReglaRestriccionPlaca(Calendar.getInstance().DAY_OF_WEEK));
 		reglas.add(new ReglaTipoVehiculos());
 		for (ReglaIngreso regla : reglas) {
 			regla.verificarRegla(vehiculo);

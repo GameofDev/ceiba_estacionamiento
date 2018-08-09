@@ -1,13 +1,10 @@
-package dominioUnitTest;
+package pruebasUnitarias;
 
 import static org.junit.Assert.*;
 
 import java.util.Calendar;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import estacionamiento.dominio.Vehiculo;
 import estacionamiento.excepciones.IngresoException;
@@ -69,15 +66,11 @@ public class ReglasTest {
 	}
 	
 	@Test 
-	public void ingresoDomingoConRestriccion () {
+	public void ingresoDomingoConRestriccionTest () {
 		// arrange
-		ReglaIngreso reglaNegocio = new ReglaRestriccionPlaca();
+		ReglaIngreso reglaNegocio = new ReglaRestriccionPlaca(Calendar.SUNDAY);
 		VehiculoTestDataBuilder vehiculoDataBuilder = new VehiculoTestDataBuilder ();
-		Vehiculo vehiculo = vehiculoDataBuilder.conPlaca("aBC123").build();
-		Calendar fecha = Mockito.mock(Calendar.class);
-		int dia;
-		Mockito.when(dia = fecha.get(Calendar.DAY_OF_WEEK)).thenReturn(dia = Calendar.THURSDAY);
-		
+		Vehiculo vehiculo = vehiculoDataBuilder.conPlaca("ABC123").build();
 		//act
 		try {
 			reglaNegocio.verificarRegla(vehiculo);
@@ -86,15 +79,39 @@ public class ReglasTest {
 			//assert
 			assertEquals(ReglaRestriccionPlaca.NO_ESTA_AUTORIZADO, e.getMessage());
 		}
-		
-		
-		//assertEquals(fecha.get(Calendar.DAY_OF_WEEK), Calendar.SUNDAY);
-		
 	}
 	
+	@Test 
+	public void ingresoLunesConRestriccionTest () {
+		// arrange
+		ReglaIngreso reglaNegocio = new ReglaRestriccionPlaca(Calendar.MONDAY);
+		VehiculoTestDataBuilder vehiculoDataBuilder = new VehiculoTestDataBuilder ();
+		Vehiculo vehiculo = vehiculoDataBuilder.conPlaca("ABC123").build();
+		//act
+		try {
+			reglaNegocio.verificarRegla(vehiculo);
+			fail();
+		} catch(IngresoException e) {
+			//assert
+			assertEquals(ReglaRestriccionPlaca.NO_ESTA_AUTORIZADO, e.getMessage());
+		}
+	}
 	
-	
-	
+	@Test 
+	public void ingresoVehiculoDiferenteTest () {
+		// arrange
+		ReglaIngreso reglaNegocio = new ReglaTipoVehiculos();
+		VehiculoTestDataBuilder vehiculoDataBuilder = new VehiculoTestDataBuilder ();
+		Vehiculo vehiculo = vehiculoDataBuilder.conTipo("CAMION").build();
+		//act
+		try {
+			reglaNegocio.verificarRegla(vehiculo);
+			fail();
+		} catch(IngresoException e) {
+			//assert
+			assertEquals(ReglaTipoVehiculos.VEHICULO_NO_AUTORIZADO, e.getMessage());
+		}
+	}
 	
 	
  

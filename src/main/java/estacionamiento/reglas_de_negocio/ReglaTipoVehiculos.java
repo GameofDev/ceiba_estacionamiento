@@ -11,7 +11,7 @@ public class ReglaTipoVehiculos implements ReglaIngreso{
 		if(!(vehiculo.getTipo().equals("moto")||vehiculo.getTipo().equals("carro"))){
 			mostrarMensaje(VEHICULO_NO_AUTORIZADO);
 		}
-	}
+	} 
 
 	
 	public void mostrarMensaje(String mensaje) {
