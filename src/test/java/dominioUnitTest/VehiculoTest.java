@@ -3,6 +3,7 @@ package dominioUnitTest;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
 import estacionamiento.dominio.Vehiculo;
 import testDataBuilder.VehiculoTestDataBuilder;
 
