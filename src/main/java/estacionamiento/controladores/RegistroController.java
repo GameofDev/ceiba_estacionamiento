@@ -16,7 +16,7 @@ import estacionamiento.servicios.Vigilante;
 @RestController
 public class RegistroController {
 	
-	@Autowired
+	@Autowired 
 	private Vigilante vigilante;
 	
 	@PostMapping("/registro")

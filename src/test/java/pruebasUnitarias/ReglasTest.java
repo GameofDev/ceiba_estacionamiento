@@ -12,7 +12,7 @@ import estacionamiento.reglas_de_negocio.*;
 import testDataBuilder.VehiculoTestDataBuilder;
 
 public class ReglasTest {
-	
+	 
 	@Test
 	public void parqueaderoNoDisponibleTest (){
 		// arrange

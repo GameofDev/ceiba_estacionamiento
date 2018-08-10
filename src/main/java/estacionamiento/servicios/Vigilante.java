@@ -15,7 +15,7 @@ import estacionamiento.repositorio.VehiculoRepository;
  
 @Service
 public class Vigilante {
-	
+	 
 		 
 	@Autowired 
 	private RegistroServicio registroServicio;
@@ -50,7 +50,7 @@ public class Vigilante {
 
 	//Debe evaluar la excepciones de salida: La placa no existe. 
 	public Registro despacharVehiculo (String placa){
-		Registro registro = registroServicio.consultarRegistro(placa);
+		Registro registro = consultarRegistro(placa);
 		registro.setFechaSalida(Calendar.getInstance());
 		Vehiculo vehiculo = vehiculoServicio.consultarVehiculo(placa);
 		int altoCilindraje=0;
@@ -61,6 +61,10 @@ public class Vigilante {
 			return realizarCobro(registro,Parqueadero.getCostoMotosHora(),Parqueadero.getCostoMotosDia(),altoCilindraje);
 		}
 		return realizarCobro(registro,Parqueadero.getCostoCarrosHora(),Parqueadero.getCostoCarrosDia(),altoCilindraje);
+	}
+	
+	public Registro consultarRegistro(String placa){
+		return registroServicio.consultarRegistro(placa);
 	}
 	
 	

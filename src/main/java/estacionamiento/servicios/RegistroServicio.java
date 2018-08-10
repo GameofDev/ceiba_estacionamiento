@@ -28,7 +28,7 @@ public class RegistroServicio {
 	public Registro crearRegistro (Vehiculo vehiculo){
 		RegistroEntity registroEntity = RegistroBuilder.convertirAEntidad(new Registro(vehiculo.getPlaca(), Calendar.getInstance(), null, 0));
 		return RegistroBuilder.convertirADominio(registroRepositorio.save(registroEntity));
-	}
+	} 
 	
 	public List<RegistroEntity> consultarRegistros (){
 		return registroRepositorio.findAll();
