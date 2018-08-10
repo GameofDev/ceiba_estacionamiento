@@ -16,7 +16,7 @@ import estacionamiento.repositorio.VehiculoRepository;
 @Service
 public class Vigilante {
 	
-		
+		 
 	@Autowired 
 	private RegistroServicio registroServicio;
 	

@@ -9,7 +9,7 @@ public class Registro {
 	private Calendar fechaSalida;
 	private long costo;
 	
-	public Registro (){
+	public Registro (){ 
 		
 	}
 	
