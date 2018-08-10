@@ -46,7 +46,7 @@ public class Vigilante {
 			regla.verificarRegla(vehiculo);
 	    }
 	}
-	
+	 
 
 	//Debe evaluar la excepciones de salida: La placa no existe. 
 	public Registro despacharVehiculo (String placa){

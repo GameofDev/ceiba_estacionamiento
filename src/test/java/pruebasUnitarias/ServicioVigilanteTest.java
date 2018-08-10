@@ -80,7 +80,7 @@ public class ServicioVigilanteTest {
 			//assert
 			assertNotNull(e.getMessage());
 		}
-	
+	 
 	}
 	
 	
@@ -117,9 +117,10 @@ public class ServicioVigilanteTest {
 	public void realizarCobroUnDiaUnaHoraCarroTest (){
 		//arrange
 		RegistroTestDataBuilder registroTestDataBuilder = new RegistroTestDataBuilder();
-		Calendar fechaSalida = Calendar.getInstance();
+		Calendar fechaIngreso = Calendar.getInstance();
+		Calendar fechaSalida = (Calendar) fechaIngreso.clone();
 		fechaSalida.add(Calendar.HOUR_OF_DAY, 25);
-		Registro registro = registroTestDataBuilder.conFechaIngreso(Calendar.getInstance()).conFechaSalida(fechaSalida).build();
+		Registro registro = registroTestDataBuilder.conFechaIngreso(fechaIngreso).conFechaSalida(fechaSalida).build();
 		
 		//act
 		registro = vigilante.realizarCobro(registro, Parqueadero.getCostoCarrosHora(), Parqueadero.getCostoCarrosDia(), 0);
