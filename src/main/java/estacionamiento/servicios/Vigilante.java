@@ -16,7 +16,6 @@ import estacionamiento.repositorio.VehiculoRepository;
 @Service
 public class Vigilante {
 	
-	private Parqueadero parqueadero;
 		
 	@Autowired 
 	private RegistroServicio registroServicio;
@@ -41,7 +40,7 @@ public class Vigilante {
 	public void evaluarReglasIngreso (Vehiculo vehiculo) {
 		List<ReglaIngreso> reglas = new ArrayList<>();
 		reglas.add(new ReglaCantidadParqueadero(vehiculoServicio.cantidadCarros(),vehiculoServicio.cantidadMotos()));
-		reglas.add(new ReglaRestriccionPlaca(Calendar.getInstance().DAY_OF_WEEK));
+		reglas.add(new ReglaRestriccionPlaca(Calendar.DAY_OF_WEEK));
 		reglas.add(new ReglaTipoVehiculos());
 		for (ReglaIngreso regla : reglas) {
 			regla.verificarRegla(vehiculo);
@@ -52,22 +51,23 @@ public class Vigilante {
 	//Debe evaluar la excepciones de salida: La placa no existe. 
 	public Registro despacharVehiculo (String placa){
 		Registro registro = registroServicio.consultarRegistro(placa);
+		registro.setFechaSalida(Calendar.getInstance());
 		Vehiculo vehiculo = vehiculoServicio.consultarVehiculo(placa);
 		int altoCilindraje=0;
 		if (vehiculo.getTipo().equals("moto")){
 			if(vehiculo.getCilindraje()>500){
-				altoCilindraje = parqueadero.getExtraMotos();
+				altoCilindraje = Parqueadero.getExtraMotos();
 			}
-			return realizarCobro(registro,parqueadero.getCostoMotosHora(),parqueadero.getCostoMotosDia(),altoCilindraje);
+			return realizarCobro(registro,Parqueadero.getCostoMotosHora(),Parqueadero.getCostoMotosDia(),altoCilindraje);
 		}
-		return realizarCobro(registro,parqueadero.getCostoCarrosHora(),parqueadero.getCostoCarrosDia(),altoCilindraje);
+		return realizarCobro(registro,Parqueadero.getCostoCarrosHora(),Parqueadero.getCostoCarrosDia(),altoCilindraje);
 	}
 	
 	
 	
 	//En este metodo se actualiza el registro con la fecha de salida y el costo del servicio
 	public Registro realizarCobro (Registro registro, int costoHoras,int costoDias, int altoCilindraje){
-		long horasParqueado = diferenciaTiempo(registro.getFechaIngreso());
+		long horasParqueado = diferenciaTiempo(registro.getFechaIngreso(), registro.getFechaSalida());
 		long dias;
 		long horasExtras;
 		long costo=0;
@@ -85,13 +85,11 @@ public class Vigilante {
 			costo = costoHoras *  horasParqueado;
 		}
 		registro.setValor(costo+altoCilindraje);
-		registro.setFechaSalida(Calendar.getInstance());
 		return registro;
 	}	
 	
 	//Se toma la fecha de ingreso al parqueadero y la fecha actual y se calcula la diferencia
-	public long diferenciaTiempo(Calendar fechaIngreso){
-		Calendar fechaSalida = Calendar.getInstance();
+	public long diferenciaTiempo(Calendar fechaIngreso, Calendar fechaSalida){
         long millIngreso = fechaIngreso.getTimeInMillis();
         long millSalida = fechaSalida.getTimeInMillis();
         long millTranscurrido = millSalida - millIngreso;

@@ -44,7 +44,7 @@ public class Registro {
 	public void setFechaSalida(Calendar fechaSalida) {
 		this.fechaSalida = fechaSalida;
 	}
-	public double getCosto() {
+	public long getCosto() {
 		return costo;
 	}
 	public void setValor(long costo) {
