@@ -17,6 +17,7 @@ public interface VehiculoRepository extends JpaRepository<VehiculoEntity, Long>{
 	
 	@Transactional
 	public void removeByPlaca(String placa);
+	
 
 
 }

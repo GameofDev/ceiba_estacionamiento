@@ -41,8 +41,8 @@ public class IntegrationTest {
 		//assert
 		assertEquals(vehiculo.getPlaca(),registro.getPlaca());
 		
-	}
-	
+	} 
+	 
 	@Test
 	public void DespachoVehiculoParqueadoTest (){
 		//arrange
@@ -55,6 +55,7 @@ public class IntegrationTest {
 
 		//assert
 		assertNull(vigilante.consultarRegistro(vehiculo.getPlaca()));
+		
 		
 	}
 

@@ -30,17 +30,18 @@ public class VehiculoServicio {
 	}
 	
 	public List<VehiculoEntity> consultarVehiculos (){
-		return vehiculoRepositorio.findAll();
+		return vehiculoRepositorio.findAll(); 
 	}
 	
 	public List <VehiculoEntity> consultarCarros (){
 		return vehiculoRepositorio.findByTipo("carro");
 	}
 	
+	
+	
 	public int cantidadCarros (){
 		return vehiculoRepositorio.findByTipo("carro").size();
 	}
-	
 	
 	public int cantidadMotos (){
 		return vehiculoRepositorio.findByTipo("moto").size();
